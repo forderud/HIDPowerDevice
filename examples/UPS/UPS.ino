@@ -39,7 +39,8 @@ const byte bCapacityGranularity1 = 1;
 const byte bCapacityGranularity2 = 1;
 byte iFullChargeCapacity = 100;
 
-byte iRemaining =0, iPrevRemaining=0;
+bool bCharging = true;
+byte iRemaining =30, iPrevRemaining=0;
 
 int iRes=0;
 
@@ -91,11 +92,16 @@ void setup() {
 }
 
 void loop() {
-  //*********** Measurements Unit ****************************
-  bool bCharging = digitalRead(4);
-  int iA7 = analogRead(A7);       // TODO - this is for debug only. Replace with charge estimation
+  if (bCharging) {
+    iRemaining += 2; // increment charge
+    if (iRemaining >= 100)// start discharging
+      bCharging = false;
+  } else {
+    iRemaining -= 2; // decrement charge
+    if (iRemaining <= 20) // start charging
+      bCharging = true;
+  }
 
-  iRemaining = (byte)(round((float)100*iA7/1024));
   iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/100);
   
     // Charging
