@@ -77,6 +77,7 @@ void setup() {
 
   PowerDevice.setStringFeature(HID_PD_IDEVICECHEMISTRY, &bDeviceChemistry, STRING_DEVICECHEMISTRY);
   PowerDevice.setStringFeature(HID_PD_IOEMINFORMATION, &bOEMVendor, STRING_OEMVENDOR);
+  PowerDevice.sendDate(HID_PD_MANUFACTUREDATE, 2024, 9, 8); // 8th Sept 2024
 
   PowerDevice.setFeature(HID_PD_AUDIBLEALARMCTRL, &iAudibleAlarmCtrl, sizeof(iAudibleAlarmCtrl));
 
