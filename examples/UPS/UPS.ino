@@ -95,12 +95,8 @@ void setup() {
 }
 
 void loop() {
-  
-  
   //*********** Measurements Unit ****************************
   bool bCharging = digitalRead(CHGDCHPIN);
-  bool bACPresent = bCharging;    // TODO - replace with sensor
-  bool bDischarging = !bCharging; // TODO - replace with sensor
   int iBattSoc = analogRead(BATTSOCPIN);       // TODO - this is for debug only. Replace with charge estimation
 
   iRemaining = (byte)(round((float)100*iBattSoc/1024));
@@ -111,17 +107,19 @@ void loop() {
     bitSet(iPresentStatus,PRESENTSTATUS_CHARGING);
   else
     bitClear(iPresentStatus,PRESENTSTATUS_CHARGING);
-  if(bACPresent) 
+
+  if(bCharging) // assume charging implies AC present
     bitSet(iPresentStatus,PRESENTSTATUS_ACPRESENT);
   else
     bitClear(iPresentStatus,PRESENTSTATUS_ACPRESENT);
+
   if(iRemaining == iFullChargeCapacity) 
     bitSet(iPresentStatus,PRESENTSTATUS_FULLCHARGE);
   else 
     bitClear(iPresentStatus,PRESENTSTATUS_FULLCHARGE);
     
   // Discharging
-  if(bDischarging) {
+  if(!bCharging) { // assume not charging implies discharging
     bitSet(iPresentStatus,PRESENTSTATUS_DISCHARGING);
     // if(iRemaining < iRemnCapacityLimit) bitSet(iPresentStatus,PRESENTSTATUS_BELOWRCL);
     
@@ -176,7 +174,7 @@ void loop() {
   if((iPresentStatus != iPreviousStatus) || (iRemaining != iPrevRemaining) || (iRunTimeToEmpty != iPrevRunTimeToEmpty) || (iIntTimer>MINUPDATEINTERVAL) ) {
 
     PowerDevice.sendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
-    if(bDischarging) PowerDevice.sendReport(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
+    if(!bCharging) PowerDevice.sendReport(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
     iRes = PowerDevice.sendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
 
     if(iRes <0 ) {
