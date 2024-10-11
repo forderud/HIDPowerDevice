@@ -55,7 +55,6 @@
 #define HID_PD_RUNTIMETOEMPTY        0x0D 
 #define HID_PD_FULLCHRGECAPACITY     0x0E // 14 FEATURE ONLY. Last Full Charge Capacity 
 #define HID_PD_CPCTYGRANULARITY1     0x10
-#define HID_PD_REMNCAPACITYLIMIT     0x11
 #define HID_PD_CURRENT               0x15 // 21 FEATURE ONLY
 #define HID_PD_CAPACITYMODE          0x16
 #define HID_PD_DESIGNCAPACITY        0x17
