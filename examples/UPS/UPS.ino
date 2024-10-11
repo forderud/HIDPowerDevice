@@ -33,7 +33,6 @@ uint16_t iManufacturerDate = 0; // initialized in setup function
 
 // Parameters for ACPI compliancy
 const byte iDesignCapacity = 100;
-byte iWarnCapacityLimit = 10; // warning at 10% 
 byte iRemnCapacityLimit = 5; // low at 5% 
 const byte bCapacityGranularity1 = 1;
 const byte bCapacityGranularity2 = 1;
@@ -78,7 +77,6 @@ void setup() {
   PowerDevice.setFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
   PowerDevice.setFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
   PowerDevice.setFeature(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
-  PowerDevice.setFeature(HID_PD_WARNCAPACITYLIMIT, &iWarnCapacityLimit, sizeof(iWarnCapacityLimit));
   PowerDevice.setFeature(HID_PD_REMNCAPACITYLIMIT, &iRemnCapacityLimit, sizeof(iRemnCapacityLimit));
   PowerDevice.setFeature(HID_PD_CPCTYGRANULARITY1, &bCapacityGranularity1, sizeof(bCapacityGranularity1));
   PowerDevice.setFeature(HID_PD_CPCTYGRANULARITY2, &bCapacityGranularity2, sizeof(bCapacityGranularity2));
