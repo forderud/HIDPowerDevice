@@ -19,7 +19,6 @@ const byte bOEMVendor = IOEMVENDOR;
 
 PresentStatus iPresentStatus = {}, iPreviousStatus = {};
 
-byte bRechargable = 1;
 byte bCapacityMode = 1;  // unit: 0=mAh, 1=mWh, 2=%
 
 // Physical parameters
@@ -63,7 +62,6 @@ void setup() {
   PowerDevice.setFeature(HID_PD_AVERAGETIME2FULL, &iAvgTimeToFull, sizeof(iAvgTimeToFull));
   PowerDevice.setFeature(HID_PD_AVERAGETIME2EMPTY, &iAvgTimeToEmpty, sizeof(iAvgTimeToEmpty));
   
-  PowerDevice.setFeature(HID_PD_RECHARGEABLE, &bRechargable, sizeof(bRechargable));
   PowerDevice.setFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
   PowerDevice.setFeature(HID_PD_CONFIGVOLTAGE, &iConfigVoltage, sizeof(iConfigVoltage));
   PowerDevice.setFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
