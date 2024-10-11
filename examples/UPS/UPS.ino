@@ -29,10 +29,7 @@ uint16_t iRunTimeToEmpty = 0, iPrevRunTimeToEmpty = 0;
 uint16_t iAvgTimeToFull = 7200;
 uint16_t iAvgTimeToEmpty = 7200;
 uint16_t iRemainTimeLimit = 600;
-int16_t  iDelayBe4Reboot = -1;
-int16_t  iDelayBe4ShutDown = -1;
 uint16_t iManufacturerDate = 0; // initialized in setup function
-
 
 // Parameters for ACPI compliancy
 const byte iDesignCapacity = 100;
@@ -69,8 +66,6 @@ void setup() {
   PowerDevice.setFeature(HID_PD_AVERAGETIME2FULL, &iAvgTimeToFull, sizeof(iAvgTimeToFull));
   PowerDevice.setFeature(HID_PD_AVERAGETIME2EMPTY, &iAvgTimeToEmpty, sizeof(iAvgTimeToEmpty));
   PowerDevice.setFeature(HID_PD_REMAINTIMELIMIT, &iRemainTimeLimit, sizeof(iRemainTimeLimit));
-  PowerDevice.setFeature(HID_PD_DELAYBE4REBOOT, &iDelayBe4Reboot, sizeof(iDelayBe4Reboot));
-  PowerDevice.setFeature(HID_PD_DELAYBE4SHUTDOWN, &iDelayBe4ShutDown, sizeof(iDelayBe4ShutDown));
   
   PowerDevice.setFeature(HID_PD_RECHARGEABLE, &bRechargable, sizeof(bRechargable));
   PowerDevice.setFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
@@ -122,14 +117,6 @@ void loop() {
     iPresentStatus.Discharging = 0;
     iPresentStatus.RemainingTimeLimitExpired = 0;
   }
-
-  // Shutdown requested
-  if(iDelayBe4ShutDown > 0 ) {
-      iPresentStatus.ShutdownRequested = 1;
-      Serial.println("shutdown requested");
-  }
-  else
-    iPresentStatus.ShutdownRequested = 0;
 
   // Shutdown imminent
   if((iPresentStatus.ShutdownRequested) || 
