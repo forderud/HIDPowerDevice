@@ -11,11 +11,9 @@ int iIntTimer=0;
 
 // String constants 
 const char STRING_DEVICECHEMISTRY[] PROGMEM = "PbAc";
-const char STRING_OEMVENDOR[] PROGMEM = "MyCoolUPS";
 const char STRING_SERIAL[] PROGMEM = "UPS10"; 
 
 const byte bDeviceChemistry = IDEVICECHEMISTRY;
-const byte bOEMVendor = IOEMVENDOR;
 
 PresentStatus iPresentStatus = {}, iPreviousStatus = {};
 
@@ -67,7 +65,6 @@ void setup() {
   PowerDevice.setFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
 
   PowerDevice.setStringFeature(HID_PD_IDEVICECHEMISTRY, &bDeviceChemistry, STRING_DEVICECHEMISTRY);
-  PowerDevice.setStringFeature(HID_PD_IOEMINFORMATION, &bOEMVendor, STRING_OEMVENDOR);
 
   PowerDevice.setFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
   PowerDevice.setFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
