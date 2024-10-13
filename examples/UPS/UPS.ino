@@ -23,8 +23,6 @@ byte bCapacityMode = 1;  // unit: 0=mAh, 1=mWh, 2=%
 const uint16_t iConfigVoltage = 1380; // centiVolt
 uint16_t iVoltage =1300; // centiVolt
 uint16_t iRunTimeToEmpty = 0, iPrevRunTimeToEmpty = 0;
-uint16_t iAvgTimeToFull = 7200;
-uint16_t iAvgTimeToEmpty = 7200;
 uint16_t iManufacturerDate = 0; // initialized in setup function
 
 // Parameters for ACPI compliancy
@@ -57,9 +55,7 @@ void setup() {
   PowerDevice.setFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
   
   PowerDevice.setFeature(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
-  PowerDevice.setFeature(HID_PD_AVERAGETIME2FULL, &iAvgTimeToFull, sizeof(iAvgTimeToFull));
-  PowerDevice.setFeature(HID_PD_AVERAGETIME2EMPTY, &iAvgTimeToEmpty, sizeof(iAvgTimeToEmpty));
-  
+
   PowerDevice.setFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
   PowerDevice.setFeature(HID_PD_CONFIGVOLTAGE, &iConfigVoltage, sizeof(iConfigVoltage));
   PowerDevice.setFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
@@ -82,6 +78,7 @@ void loop() {
   int iBattSoc = analogRead(BATTSOCPIN); // potensiometer value in [0,1024)
 
   iRemaining = (byte)(round((float)iFullChargeCapacity*iBattSoc/1024));
+  uint16_t iAvgTimeToEmpty = 7200;
   iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/iFullChargeCapacity);
 
   if (iRemaining > iPrevRemaining)
