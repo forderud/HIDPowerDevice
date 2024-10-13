@@ -99,17 +99,6 @@ void loop() {
     iPresentStatus.Discharging = 0;
     iPresentStatus.RemainingTimeLimitExpired = 0;
   }
-
-  // Shutdown imminent
-  if((iPresentStatus.ShutdownRequested) || 
-     (iPresentStatus.RemainingTimeLimitExpired)) {
-    iPresentStatus.ShutdownImminent = 1;
-    Serial.println("shutdown imminent");
-  }
-  else
-    iPresentStatus.ShutdownImminent = 0;
-
-
   
   iPresentStatus.BatteryPresent = 1;
 
