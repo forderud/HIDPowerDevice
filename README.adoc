@@ -1,3 +1,11 @@
+This is a **fork of the https://github.com/abratchik/HIDPowerDevice project** with the following changes:
+
+* Change CapacityMode from 2 (`%`) to 1 (`mWh`) and capacity parameters to `AmpSec` as proposed in https://github.com/abratchik/HIDPowerDevice/pull/14
+* Get rid of bACPresent & bDischarging variables and auto-sense charging on/off as proposed in https://github.com/abratchik/HIDPowerDevice/pull/12
+* Change chemistry to "LiP", and modify parameters to better matches a typical laptop battery.
+* Simplify HIDPowerDevice_ class.
+* Remove parameters not relevant for battery packs to simplify the HID descriptor.
+
 = HID UPS Power Device Library for Arduino =
 
 This library allows an Arduino board with USB capabilities to act as a HID-compliant UPS according to USB HID specifications. 
