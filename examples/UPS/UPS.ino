@@ -102,8 +102,8 @@ void loop() {
   //*********** Measurements Unit ****************************
   int iBattSoc = analogRead(BATTSOCPIN); // potensiometer value in [0,1024)
 
-  iRemaining = (byte)(round((float)100*iBattSoc/1024));
-  iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/100);
+  iRemaining = (byte)(round((float)iFullChargeCapacity*iBattSoc/1024));
+  iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/iFullChargeCapacity);
 
   if (iRemaining > iPrevRemaining)
     bCharging = true;
