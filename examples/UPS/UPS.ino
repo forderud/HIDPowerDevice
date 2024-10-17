@@ -26,8 +26,8 @@ uint16_t iRunTimeToEmpty = 0, iPrevRunTimeToEmpty = 0;
 uint16_t iManufacturerDate = 0; // initialized in setup function
 
 // Parameters for ACPI compliancy
-const uint16_t iDesignCapacity = 100;
-uint16_t iFullChargeCapacity = 100;
+const uint32_t iDesignCapacity = 100*360/iVoltage; // AmpSec=mWh*360/centiVolt (1 mAh = 3.6 As)
+uint32_t iFullChargeCapacity = 100*360/iVoltage; // AmpSec=mWh*360/centiVolt (1 mAh = 3.6 As)
 
 uint32_t iRemaining =0, iPrevRemaining=0;
 bool bCharging = false;
