@@ -44,6 +44,7 @@ const byte bCapacityGranularity2 = 1;
 byte iFullChargeCapacity = 100;
 
 byte iRemaining =0, iPrevRemaining=0;
+bool bCharging = false;
 
 int iRes=0;
 
@@ -98,24 +99,24 @@ void setup() {
 }
 
 void loop() {
-  
-  
   //*********** Measurements Unit ****************************
-  bool bCharging = digitalRead(CHGDCHPIN);
-  bool bACPresent = bCharging;    // TODO - replace with sensor
-  bool bDischarging = !bCharging; // TODO - replace with sensor
-  int iBattSoc = analogRead(BATTSOCPIN);       // TODO - this is for debug only. Replace with charge estimation
+  int iBattSoc = analogRead(BATTSOCPIN); // potensiometer value in [0,1024)
 
-  iRemaining = (byte)(round((float)100*iBattSoc/1024));
-  iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/100);
+  iRemaining = (byte)(round((float)iFullChargeCapacity*iBattSoc/1024));
+  iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/iFullChargeCapacity);
+
+  if (iRemaining > iPrevRemaining)
+    bCharging = true;
+  else if (iRemaining < iPrevRemaining)
+    bCharging = false;
   
   // Charging
   iPresentStatus.Charging = bCharging;
-  iPresentStatus.ACPresent = bACPresent;
+  iPresentStatus.ACPresent = bCharging; // assume charging implies AC present
   iPresentStatus.FullyCharged = (iRemaining == iFullChargeCapacity);
     
   // Discharging
-  if(bDischarging) {
+  if(!bCharging) { // assume not charging implies discharging
     iPresentStatus.Discharging = 1;
     // if(iRemaining < iRemnCapacityLimit) iPresentStatus.BelowRemainingCapacityLimit = 1;
     
@@ -167,7 +168,7 @@ void loop() {
   if((iPresentStatus != iPreviousStatus) || (iRemaining != iPrevRemaining) || (iRunTimeToEmpty != iPrevRunTimeToEmpty) || (iIntTimer>MINUPDATEINTERVAL) ) {
 
     PowerDevice.sendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
-    if(bDischarging) PowerDevice.sendReport(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
+    if(!bCharging) PowerDevice.sendReport(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
     iRes = PowerDevice.sendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
 
     if(iRes <0 ) {
@@ -178,7 +179,8 @@ void loop() {
         
     iIntTimer = 0;
     iPreviousStatus = iPresentStatus;
-    iPrevRemaining = iRemaining;
+    if (abs(iPrevRemaining - iRemaining) > 1) // add a bit of hysteresis
+      iPrevRemaining = iRemaining;
     iPrevRunTimeToEmpty = iRunTimeToEmpty;
   }
   
