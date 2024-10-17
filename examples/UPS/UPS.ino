@@ -29,7 +29,7 @@ uint16_t iManufacturerDate = 0; // initialized in setup function
 const byte iDesignCapacity = 100;
 byte iFullChargeCapacity = 100;
 
-byte iRemaining =0, iPrevRemaining=0;
+uint32_t iRemaining =0, iPrevRemaining=0;
 bool bCharging = false;
 
 int iRes=0;
@@ -73,7 +73,7 @@ void loop() {
   //*********** Measurements Unit ****************************
   int iBattSoc = analogRead(BATTSOCPIN); // potensiometer value in [0,1024)
 
-  iRemaining = (byte)(round((float)iFullChargeCapacity*iBattSoc/1024));
+  iRemaining = (uint32_t)(round((float)iFullChargeCapacity*iBattSoc/1024));
   uint16_t iAvgTimeToEmpty = 7200;
   iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/iFullChargeCapacity);
 
