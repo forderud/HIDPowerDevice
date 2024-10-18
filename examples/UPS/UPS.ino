@@ -22,7 +22,6 @@ byte bCapacityMode = 1;  // unit: 0=mAh, 1=mWh, 2=%
 // Physical parameters
 const uint16_t iConfigVoltage = 1509; // centiVolt
 uint16_t iVoltage =1499; // centiVolt
-uint16_t iRunTimeToEmpty = 0, iPrevRunTimeToEmpty = 0;
 uint16_t iManufacturerDate = 0; // initialized in setup function
 
 // Parameters for ACPI compliancy
@@ -52,8 +51,6 @@ void setup() {
 
   PowerDevice.setFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
   
-  PowerDevice.setFeature(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
-
   PowerDevice.setFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
   PowerDevice.setFeature(HID_PD_CONFIGVOLTAGE, &iConfigVoltage, sizeof(iConfigVoltage));
   PowerDevice.setFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
@@ -74,8 +71,6 @@ void loop() {
   int iBattSoc = analogRead(BATTSOCPIN); // potensiometer value in [0,1024)
 
   iRemaining = (uint32_t)(round((float)iFullChargeCapacity*iBattSoc/1024));
-  uint16_t iAvgTimeToEmpty = 7200;
-  iRunTimeToEmpty = (uint16_t)round((float)iAvgTimeToEmpty*iRemaining/iFullChargeCapacity);
 
   if (iRemaining > iPrevRemaining)
     bCharging = true;
@@ -114,10 +109,9 @@ void loop() {
 
   //************ Bulk send or interrupt ***********************
 
-  if((iPresentStatus != iPreviousStatus) || (iRemaining != iPrevRemaining) || (iRunTimeToEmpty != iPrevRunTimeToEmpty) || (iIntTimer>MINUPDATEINTERVAL) ) {
+  if((iPresentStatus != iPreviousStatus) || (iRemaining != iPrevRemaining) || (iIntTimer>MINUPDATEINTERVAL) ) {
 
     PowerDevice.sendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
-    if(!bCharging) PowerDevice.sendReport(HID_PD_RUNTIMETOEMPTY, &iRunTimeToEmpty, sizeof(iRunTimeToEmpty));
     iRes = PowerDevice.sendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
 
     if(iRes <0 ) {
@@ -130,12 +124,10 @@ void loop() {
     iPreviousStatus = iPresentStatus;
     if (abs(iPrevRemaining - iRemaining) > 1) // add a bit of hysteresis
       iPrevRemaining = iRemaining;
-    iPrevRunTimeToEmpty = iRunTimeToEmpty;
   }
   
 
   Serial.println(iRemaining);
-  Serial.println(iRunTimeToEmpty);
   Serial.println(iRes);
   
 }
