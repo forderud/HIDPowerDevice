@@ -50,7 +50,6 @@
 #define HID_PD_VOLTAGE               0x0B // 11 INPUT (NA) OR FEATURE(implemented)
 #define HID_PD_REMAININGCAPACITY     0x0C // 12 INPUT OR FEATURE(required by Windows)
 #define HID_PD_FULLCHRGECAPACITY     0x0E // 14 FEATURE ONLY. Last Full Charge Capacity 
-#define HID_PD_CURRENT               0x15 // 21 FEATURE ONLY
 #define HID_PD_CAPACITYMODE          0x16
 #define HID_PD_DESIGNCAPACITY        0x17
 #define HID_PD_AVERAGECURRENT        0x1B
