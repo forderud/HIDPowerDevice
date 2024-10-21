@@ -38,10 +38,6 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
     0x95, 0x01, //     REPORT_COUNT (1)
     0x15, 0x00, //     LOGICAL_MINIMUM (0)
     0x26, 0xFF, 0x00, //     LOGICAL_MAXIMUM (255)
-    0x85, HID_PD_IPRODUCT, //     REPORT_ID (1)
-    0x09, 0xFE, //     USAGE (iProduct)
-    0x79, IPRODUCT, //     STRING INDEX (2)
-    0xB1, 0x23, //     FEATURE (Constant, Variable, Absolute, No Wrap, Linear, No Preferred, No Null Position, Nonvolatile, Bitfield)
     0x05, 0x85, //     USAGE_PAGE (Battery System) ====================
     0x85, HID_PD_CAPACITYMODE, //     REPORT_ID (22)
     0x09, 0x2C, //     USAGE (CapacityMode)
@@ -101,9 +97,6 @@ HIDPowerDevice_::HIDPowerDevice_(void) {
     static HIDSubDescriptor node(_hidReportDescriptor, sizeof (_hidReportDescriptor));
 
     HID().AppendDescriptor(&node);
-
-    // set string ID here
-    HID().SetFeature(HID_PD_IPRODUCT, &bProduct, sizeof(bProduct));
 }
 
 void HIDPowerDevice_::setOutput(Serial_& out) {
