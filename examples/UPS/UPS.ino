@@ -11,7 +11,6 @@ int iIntTimer=0;
 
 // String constants 
 const char STRING_DEVICECHEMISTRY[] PROGMEM = "LiP";
-const char STRING_SERIAL[] PROGMEM = "UPS10"; 
 
 const byte bDeviceChemistry = IDEVICECHEMISTRY;
 
@@ -36,9 +35,6 @@ int iRes=0;
 void setup() {
 
   Serial.begin(57600);
-  
-  // Serial No is set in a special way as it forms Arduino port name
-  PowerDevice.setSerial(STRING_SERIAL); 
   
   // Used for debugging purposes. 
   PowerDevice.setOutput(Serial);

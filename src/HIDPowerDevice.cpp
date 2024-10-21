@@ -42,10 +42,6 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
     0x09, 0xFE, //     USAGE (iProduct)
     0x79, IPRODUCT, //     STRING INDEX (2)
     0xB1, 0x23, //     FEATURE (Constant, Variable, Absolute, No Wrap, Linear, No Preferred, No Null Position, Nonvolatile, Bitfield)
-    0x85, HID_PD_SERIAL, //     REPORT_ID (2)
-    0x09, 0xFF, //     USAGE (iSerialNumber)
-    0x79, ISERIAL, //  STRING INDEX (3)
-    0xB1, 0x23, //     FEATURE (Constant, Variable, Absolute, No Wrap, Linear, No Preferred, No Null Position, Nonvolatile, Bitfield)
     0x85, HID_PD_MANUFACTURER, //     REPORT_ID (3)
     0x09, 0xFD, //     USAGE (iManufacturer)
     0x79, IMANUFACTURER, //     STRING INDEX (1)
@@ -121,7 +117,6 @@ HIDPowerDevice_::HIDPowerDevice_(void) {
 
     // set string ID here
     HID().SetFeature(HID_PD_IPRODUCT, &bProduct, sizeof(bProduct));
-    HID().SetFeature(HID_PD_SERIAL, &bSerial, sizeof(bSerial));
     HID().SetFeature(HID_PD_MANUFACTURER, &bManufacturer, sizeof(bManufacturer));
 }
 

@@ -40,7 +40,6 @@
 //================================================================================
 
 #define HID_PD_IPRODUCT              0x01 // FEATURE ONLY
-#define HID_PD_SERIAL                0x02 // FEATURE ONLY
 #define HID_PD_MANUFACTURER          0x03 // FEATURE ONLY
 #define IDEVICECHEMISTRY             0x04
 
@@ -77,7 +76,6 @@ private:
     
     const byte bProduct = IPRODUCT;
     const byte bManufacturer = IMANUFACTURER;
-    const byte bSerial = ISERIAL;  
     
 public:
   HIDPowerDevice_(void);
