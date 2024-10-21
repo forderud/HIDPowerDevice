@@ -40,7 +40,6 @@
 //================================================================================
 
 #define HID_PD_IPRODUCT              0x01 // FEATURE ONLY
-#define HID_PD_MANUFACTURER          0x03 // FEATURE ONLY
 
 #define HID_PD_PRESENTSTATUS         0x07 // INPUT OR FEATURE(required by Windows)
 #define HID_PD_VOLTAGE               0x0B // 11 INPUT (NA) OR FEATURE(implemented)
@@ -70,7 +69,6 @@ class HIDPowerDevice_  {
 private:
     
     const byte bProduct = IPRODUCT;
-    const byte bManufacturer = IMANUFACTURER;
     
 public:
   HIDPowerDevice_(void);
