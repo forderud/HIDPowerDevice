@@ -52,7 +52,6 @@
 #define HID_PD_FULLCHRGECAPACITY     0x0E // 14 FEATURE ONLY. Last Full Charge Capacity 
 #define HID_PD_CAPACITYMODE          0x16
 #define HID_PD_DESIGNCAPACITY        0x17
-#define HID_PD_AVERAGECURRENT        0x1B
 
 #define HID_PD_IDEVICECHEMISTRY      0x1F // Feature
 
