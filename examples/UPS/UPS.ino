@@ -8,12 +8,6 @@
 
 int iIntTimer=0;
 
-
-// String constants 
-const char STRING_DEVICECHEMISTRY[] PROGMEM = "LiP";
-
-const byte bDeviceChemistry = IDEVICECHEMISTRY;
-
 PresentStatus iPresentStatus = {}, iPreviousStatus = {};
 
 byte bCapacityMode = 1;  // unit: 0=mAh, 1=mWh, 2=%
@@ -47,8 +41,6 @@ void setup() {
   
   PowerDevice.setFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
   PowerDevice.setFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
-
-  PowerDevice.setStringFeature(HID_PD_IDEVICECHEMISTRY, &bDeviceChemistry, STRING_DEVICECHEMISTRY);
 
   PowerDevice.setFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
   PowerDevice.setFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));

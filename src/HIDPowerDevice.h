@@ -41,7 +41,6 @@
 
 #define HID_PD_IPRODUCT              0x01 // FEATURE ONLY
 #define HID_PD_MANUFACTURER          0x03 // FEATURE ONLY
-#define IDEVICECHEMISTRY             0x04
 
 #define HID_PD_PRESENTSTATUS         0x07 // INPUT OR FEATURE(required by Windows)
 #define HID_PD_VOLTAGE               0x0B // 11 INPUT (NA) OR FEATURE(implemented)
@@ -49,9 +48,6 @@
 #define HID_PD_FULLCHRGECAPACITY     0x0E // 14 FEATURE ONLY. Last Full Charge Capacity 
 #define HID_PD_CAPACITYMODE          0x16
 #define HID_PD_DESIGNCAPACITY        0x17
-
-#define HID_PD_IDEVICECHEMISTRY      0x1F // Feature
-
 
 // PresentStatus dynamic flags
 struct PresentStatus {
