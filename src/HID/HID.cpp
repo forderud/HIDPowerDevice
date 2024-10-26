@@ -129,52 +129,6 @@ void HID_::AppendDescriptor(HIDSubDescriptor *node)
     descriptorSize += node->length;
 }
 
-int HID_::SetFeature(uint16_t id, const void* data, int len)
-{
-    if(!rootReport) {
-        rootReport = new HIDReport(id, data, len);
-    } else {
-        HIDReport* current;
-        int i=0;
-        for ( current = rootReport; current; current = current->next, i++) {
-            if(current->id == id) {
-                return i;
-            }
-            // check if we are on the last report
-            if(!current->next) {
-                current->next = new HIDReport(id, data, len);
-                break;
-            }
-        }
-    }
-
-    reportCount++;
-    return reportCount;
-}
-
-bool HID_::LockFeature(uint16_t id, bool lock) {
-    if(rootReport) {
-        HIDReport* current;
-        for(current = rootReport;current; current=current->next) {
-            if(current->id == id) {
-                current->lock = lock;
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-
-int HID_::SendReport(uint16_t id, const void* data, int len)
-{
-    auto ret = USB_Send(HID_TX, &id, 1);
-    if (ret < 0) return ret;
-    auto ret2 = USB_Send(HID_TX | TRANSFER_RELEASE, data, len);
-    if (ret2 < 0) return ret2;
-    return ret + ret2;
-}
-
 HIDReport* HID_::GetFeature(uint16_t id)
 {
     HIDReport* current;

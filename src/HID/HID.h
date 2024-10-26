@@ -114,18 +114,11 @@ class HID_ : public PluggableUSBModule
 {
 public:
     HID_(void);
-    int SendReport(uint16_t id, const void* data, int len);
-    int SetFeature(uint16_t id, const void* data, int len);
-    bool LockFeature(uint16_t id, bool lock);
     
     void AppendDescriptor(HIDSubDescriptor* node);
     
     void setOutput(Serial_& out) {
         dbg = &out;
-    }
-    
-    void setSerial(const char* s) {
-        serial = s;
     }
     
     HIDReport* GetFeature(uint16_t id);
