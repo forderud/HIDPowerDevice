@@ -121,8 +121,6 @@ public:
         dbg = &out;
     }
     
-    HIDReport* GetFeature(uint16_t id);
-    
 protected:
     // Implementation of the PluggableUSBModule
     int getInterface(uint8_t* interfaceCount) override;
@@ -138,10 +136,6 @@ private:
     uint8_t protocol;
     uint8_t idle;
   
-    // Buffer pointer to hold the feature data
-    HIDReport* rootReport;
-    uint16_t reportCount;
-    
     Serial_ *dbg;
     
     const char *serial;
