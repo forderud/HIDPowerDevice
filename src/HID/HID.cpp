@@ -63,14 +63,7 @@ int HID_::getDescriptor(USBSetup& setup)
 
     // HID-specific strings
     if(USB_STRING_DESCRIPTOR_TYPE == t) {
-        // we place all strings in the 0xFF00-0xFFFE range
-        HIDReport* rep = GetFeature(0xFF00 | setup.wValueL );
-        if(rep) {
-            return USB_SendStringDescriptor((char*)rep->data, strlen_P((char*)rep->data), TRANSFER_PGM);
-        }
-        else {
-            return 0;
-        }
+        return 0;
     }
 
     // Check if this is a HID Class Descriptor request
@@ -110,18 +103,6 @@ void HID_::AppendDescriptor(HIDSubDescriptor *node)
     descriptorSize += node->length;
 }
 
-HIDReport* HID_::GetFeature(uint16_t id)
-{
-    HIDReport* current;
-    int i=0;
-    for(current=rootReport; current && i<reportCount; current=current->next, i++) {
-        if(id == current->id) {
-            return current;
-        }
-    }
-    return (HIDReport*) NULL;
-}
-
 bool HID_::setup(USBSetup& setup)
 {
     if (pluggedInterface != setup.wIndex) {
@@ -136,13 +117,6 @@ bool HID_::setup(USBSetup& setup)
         if (request == HID_GET_REPORT) {
             if(setup.wValueH == HID_REPORT_TYPE_FEATURE)
             {
-                HIDReport* current = GetFeature(setup.wValueL);
-                if(current){
-                    if(USB_SendControl(0, &(current->id), 1)>0 &&
-                       USB_SendControl(0, current->data, current->length)>0)
-                        return true;
-                }
-
                 return false;
             }
             return true;
@@ -172,16 +146,7 @@ bool HID_::setup(USBSetup& setup)
         {
             if(setup.wValueH == HID_REPORT_TYPE_FEATURE)
             {
-
-                HIDReport* current = GetFeature(setup.wValueL);
-                if(!current) return false;
-                if(setup.wLength != current->length + 1) return false;
-                uint8_t* data = new uint8_t[setup.wLength];
-                USB_RecvControl(data, setup.wLength);
-                if(*data != current->id) return false;
-                memcpy((uint8_t*)current->data, data+1, current->length);
-                delete[] data;
-                return true;
+                return false;
             }
         }
     }
