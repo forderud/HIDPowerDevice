@@ -137,9 +137,6 @@ private:
     uint8_t idle;
   
     Serial_ *dbg;
-    
-    const char *serial;
-    
 };
 
 // Replacement for global singleton.
