@@ -6,6 +6,8 @@ This is a **fork of the https://github.com/abratchik/HIDPowerDevice project** wi
 * Simplify HIDPowerDevice_ class.
 * Remove parameters not relevant for battery packs to simplify the HID descriptor.
 
+The `BatteryQuery` project from https://github.com/forderud/BatterySimulator can be used to check how battery parameters are detected by Windows.
+
 = HID UPS Power Device Library for Arduino =
 
 This library allows an Arduino board with USB capabilities to act as a HID-compliant UPS according to USB HID specifications. 
