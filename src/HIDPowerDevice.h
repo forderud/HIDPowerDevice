@@ -72,7 +72,8 @@ public:
 };
 
 extern HIDPowerDevice_ PowerDevice;
-
+extern HIDPowerDevice_ PowerDevice2;
+extern HIDPowerDevice_ PowerDevice3;
 
 #endif
 #endif

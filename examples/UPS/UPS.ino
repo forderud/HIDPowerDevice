@@ -31,6 +31,8 @@ void setup() {
   
   // Used for debugging purposes. 
   PowerDevice.setOutput(Serial);
+  PowerDevice2.setOutput(Serial);
+  PowerDevice3.setOutput(Serial);
   
   pinMode(CHGDCHPIN, INPUT_PULLUP); // ground this pin to simulate power failure. 
   pinMode(RUNSTATUSPIN, OUTPUT);  // output flushing 1 sec indicating that the arduino cycle is running. 
@@ -38,13 +40,28 @@ void setup() {
 
 
   PowerDevice.SetFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
+  PowerDevice2.SetFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
+  PowerDevice3.SetFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
   
   PowerDevice.SetFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
+  PowerDevice2.SetFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
+  PowerDevice3.SetFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
+
   PowerDevice.SetFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
+  PowerDevice2.SetFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
+  PowerDevice3.SetFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
 
   PowerDevice.SetFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
+  PowerDevice2.SetFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
+  PowerDevice3.SetFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
+
   PowerDevice.SetFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
+  PowerDevice2.SetFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
+  PowerDevice3.SetFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
+
   PowerDevice.SetFeature(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+  PowerDevice2.SetFeature(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+  PowerDevice3.SetFeature(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
 }
 
 void loop() {
@@ -87,7 +104,12 @@ void loop() {
   if((iPresentStatus != iPreviousStatus) || (iRemaining != iPrevRemaining) || (iIntTimer>MINUPDATEINTERVAL) ) {
 
     PowerDevice.SendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+    PowerDevice2.SendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+    PowerDevice3.SendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+
     iRes = PowerDevice.SendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
+    iRes = PowerDevice2.SendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
+    iRes = PowerDevice3.SendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
 
     if(iRes <0 ) {
       digitalWrite(COMMLOSTPIN, HIGH);

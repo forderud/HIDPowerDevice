@@ -114,5 +114,7 @@ int HIDPowerDevice_::setStringFeature(uint8_t id, const uint8_t* index, const ch
 }
 
 HIDPowerDevice_ PowerDevice;
+HIDPowerDevice_ PowerDevice2;
+HIDPowerDevice_ PowerDevice3;
 
 #endif
