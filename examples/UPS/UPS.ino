@@ -37,14 +37,14 @@ void setup() {
   pinMode(COMMLOSTPIN, OUTPUT); // output is on once communication is lost with the host, otherwise off.
 
 
-  PowerDevice.setFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
+  PowerDevice.SetFeature(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
   
-  PowerDevice.setFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
-  PowerDevice.setFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
+  PowerDevice.SetFeature(HID_PD_CAPACITYMODE, &bCapacityMode, sizeof(bCapacityMode));
+  PowerDevice.SetFeature(HID_PD_VOLTAGE, &iVoltage, sizeof(iVoltage));
 
-  PowerDevice.setFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
-  PowerDevice.setFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
-  PowerDevice.setFeature(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+  PowerDevice.SetFeature(HID_PD_DESIGNCAPACITY, &iDesignCapacity, sizeof(iDesignCapacity));
+  PowerDevice.SetFeature(HID_PD_FULLCHRGECAPACITY, &iFullChargeCapacity, sizeof(iFullChargeCapacity));
+  PowerDevice.SetFeature(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
 }
 
 void loop() {
@@ -86,8 +86,8 @@ void loop() {
 
   if((iPresentStatus != iPreviousStatus) || (iRemaining != iPrevRemaining) || (iIntTimer>MINUPDATEINTERVAL) ) {
 
-    PowerDevice.sendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
-    iRes = PowerDevice.sendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
+    PowerDevice.SendReport(HID_PD_REMAININGCAPACITY, &iRemaining, sizeof(iRemaining));
+    iRes = PowerDevice.SendReport(HID_PD_PRESENTSTATUS, &iPresentStatus, sizeof(iPresentStatus));
 
     if(iRes <0 ) {
       digitalWrite(COMMLOSTPIN, HIGH);

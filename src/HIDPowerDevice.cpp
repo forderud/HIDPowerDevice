@@ -94,37 +94,21 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
 HIDPowerDevice_::HIDPowerDevice_(void) {
     static HIDSubDescriptor node(_hidReportDescriptor, sizeof (_hidReportDescriptor));
 
-    HID().AppendDescriptor(&node);
-}
-
-void HIDPowerDevice_::setOutput(Serial_& out) {
-    HID().setOutput(out);
-}
-
-void HIDPowerDevice_::setSerial(const char* s) {
-    HID().setSerial(s);
+    AppendDescriptor(&node);
 }
 
 int HIDPowerDevice_::sendDate(uint16_t id, uint16_t year, uint8_t month, uint8_t day) {
     uint16_t bval = (year - 1980)*512 + month * 32 + day;
-    return HID().SendReport(id, &bval, sizeof (bval));
-}
-
-int HIDPowerDevice_::sendReport(uint16_t id, const void* bval, int len) {
-    return HID().SendReport(id, bval, len);
-}
-
-int HIDPowerDevice_::setFeature(uint16_t id, const void *data, int len) {
-    return HID().SetFeature(id, data, len);
+    return SendReport(id, &bval, sizeof (bval));
 }
 
 int HIDPowerDevice_::setStringFeature(uint8_t id, const uint8_t* index, const char* data) {
     
-    int res = HID().SetFeature(id, index, 1);
+    int res = SetFeature(id, index, 1);
     
     if(res == 0) return 0;
     
-    res += HID().SetFeature(0xFF00 | *index , data, strlen_P(data));
+    res += SetFeature(0xFF00 | *index , data, strlen_P(data));
     
     return res;
 }
@@ -132,4 +116,3 @@ int HIDPowerDevice_::setStringFeature(uint8_t id, const uint8_t* index, const ch
 HIDPowerDevice_ PowerDevice;
 
 #endif
-
